@@ -1,0 +1,3 @@
+http://localhost:61229/api/Animals
+http://localhost:61229/api/Animals/PostAnimal
+http://localhost:61229/api/Animals/PutAnimal?id=5001

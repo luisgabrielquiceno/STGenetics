@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="STGeneticsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Animal">
+    <Key>
+      <PropertyRef Name="AnimalId" />
+    </Key>
+    <Property Name="AnimalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BreedId" Type="Int32" Nullable="false" />
+    <Property Name="StatusId" Type="Int32" Nullable="false" />
+    <Property Name="SexId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Birthdate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Price" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Breed" Relationship="Self.fk_animal_rgen1_breed" FromRole="Animal" ToRole="Breed" />
+    <NavigationProperty Name="Sex" Relationship="Self.fk_animal_rgen2_sex" FromRole="Animal" ToRole="Sex" />
+    <NavigationProperty Name="Status" Relationship="Self.fk_animal_rgen3_status" FromRole="Animal" ToRole="Status" />
+    <NavigationProperty Name="OrderDetail" Relationship="STGeneticsModel.fk_orderdet_rgen5_animal" FromRole="Animal" ToRole="OrderDetail" />
+  </EntityType>
+  <EntityType Name="Breed">
+    <Key>
+      <PropertyRef Name="BreedId" />
+    </Key>
+    <Property Name="BreedId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Animal" Relationship="Self.fk_animal_rgen1_breed" FromRole="Breed" ToRole="Animal" />
+  </EntityType>
+  <EntityType Name="Sex">
+    <Key>
+      <PropertyRef Name="SexId" />
+    </Key>
+    <Property Name="SexId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Animal" Relationship="Self.fk_animal_rgen2_sex" FromRole="Sex" ToRole="Animal" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="StatusId" />
+    </Key>
+    <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Animal" Relationship="Self.fk_animal_rgen3_status" FromRole="Status" ToRole="Animal" />
+  </EntityType>
+  <Association Name="fk_animal_rgen1_breed">
+    <End Role="Breed" Type="Self.Breed" Multiplicity="1" />
+    <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Breed">
+        <PropertyRef Name="BreedId" />
+      </Principal>
+      <Dependent Role="Animal">
+        <PropertyRef Name="BreedId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_animal_rgen2_sex">
+    <End Role="Sex" Type="Self.Sex" Multiplicity="1" />
+    <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sex">
+        <PropertyRef Name="SexId" />
+      </Principal>
+      <Dependent Role="Animal">
+        <PropertyRef Name="SexId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_animal_rgen3_status">
+    <End Role="Status" Type="Self.Status" Multiplicity="1" />
+    <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="StatusId" />
+      </Principal>
+      <Dependent Role="Animal">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="STGeneticsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Animal" EntityType="Self.Animal" />
+    <EntitySet Name="Breed" EntityType="Self.Breed" />
+    <EntitySet Name="Sex" EntityType="Self.Sex" />
+    <EntitySet Name="Status" EntityType="Self.Status" />
+    <AssociationSet Name="fk_animal_rgen1_breed" Association="Self.fk_animal_rgen1_breed">
+      <End Role="Breed" EntitySet="Breed" />
+      <End Role="Animal" EntitySet="Animal" />
+    </AssociationSet>
+    <AssociationSet Name="fk_animal_rgen2_sex" Association="Self.fk_animal_rgen2_sex">
+      <End Role="Sex" EntitySet="Sex" />
+      <End Role="Animal" EntitySet="Animal" />
+    </AssociationSet>
+    <AssociationSet Name="fk_animal_rgen3_status" Association="Self.fk_animal_rgen3_status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="Animal" EntitySet="Animal" />
+    </AssociationSet>
+    <EntitySet Name="OrderDetail" EntityType="STGeneticsModel.OrderDetail" />
+    <EntitySet Name="OrderPurchase" EntityType="STGeneticsModel.OrderPurchase" />
+    <AssociationSet Name="fk_orderdet_rgen5_animal" Association="STGeneticsModel.fk_orderdet_rgen5_animal">
+      <End Role="Animal" EntitySet="Animal" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="fk_orderdet_rgen4_orderpur" Association="STGeneticsModel.fk_orderdet_rgen4_orderpur">
+      <End Role="OrderPurchase" EntitySet="OrderPurchase" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="OrderDetailId" />
+    </Key>
+    <Property Name="OrderDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Orderpurchaseid" Type="Int32" Nullable="false" />
+    <Property Name="Animalid" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Discount" Type="Int32" />
+    <NavigationProperty Name="Animal" Relationship="STGeneticsModel.fk_orderdet_rgen5_animal" FromRole="OrderDetail" ToRole="Animal" />
+    <NavigationProperty Name="OrderPurchase" Relationship="STGeneticsModel.fk_orderdet_rgen4_orderpur" FromRole="OrderDetail" ToRole="OrderPurchase" />
+  </EntityType>
+  <EntityType Name="OrderPurchase">
+    <Key>
+      <PropertyRef Name="OrderPurchaseId" />
+    </Key>
+    <Property Name="OrderPurchaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Discount_" Type="Int32" />
+    <Property Name="Totalquantity" Type="Int32" />
+    <Property Name="Totalprice" Type="Double" />
+    <Property Name="Freightcharge" Type="Double" />
+    <NavigationProperty Name="OrderDetail" Relationship="STGeneticsModel.fk_orderdet_rgen4_orderpur" FromRole="OrderPurchase" ToRole="OrderDetail" />
+  </EntityType>
+  <Association Name="fk_orderdet_rgen5_animal">
+    <End Type="STGeneticsModel.Animal" Role="Animal" Multiplicity="1" />
+    <End Type="STGeneticsModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="AnimalId" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="Animalid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_orderdet_rgen4_orderpur">
+    <End Type="STGeneticsModel.OrderPurchase" Role="OrderPurchase" Multiplicity="1" />
+    <End Type="STGeneticsModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="OrderPurchase">
+        <PropertyRef Name="OrderPurchaseId" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="Orderpurchaseid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
