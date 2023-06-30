@@ -1,3 +1,13 @@
 http://localhost:61229/api/Animals
 http://localhost:61229/api/Animals/PostAnimal
 http://localhost:61229/api/Animals/PutAnimal?id=5001
+
+
+
+echo "# STGenetics" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/luisgabrielquiceno/STGenetics.git
+git push -u origin main
